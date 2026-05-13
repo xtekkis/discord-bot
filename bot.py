@@ -17,5 +17,16 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def on_ready():
     print(f'{bot.user} is online and ready!')
 
+# !hello - greets the user
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Hello {ctx.author.name}! I am Utilix, your utility bot. Type !help to see what I can do!')
+
+# !ping - checks response time
+@bot.command()
+async def ping(ctx):
+    latency = round(bot.latency * 1000)
+    await ctx.send(f'Pong! 🏓 Response time: {latency}ms')
+
 # Run the bot
 bot.run(TOKEN)

@@ -5,9 +5,10 @@ import requests
 import random
 import os
 
-# Load token from .env file
+# Load token and weather key from .env file
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
 
 # Set up the bot with a command prefix
 intents = discord.Intents.default()
@@ -64,6 +65,31 @@ async def ball8(ctx, *, question):
     ]
     answer = random.choice(responses)
     await ctx.send(f'Question: {question}\nAnswer: **{answer}**')
+
+# !weather [city] - fetches live weather for a given city
+@bot.command()
+async def weather(ctx, *, city):
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={WEATHER_API_KEY}&units=metric'
+    response = requests.get(url)
+    data = response.json()
+
+    if data['cod'] != 200:
+        await ctx.send(f'City not found. Please check the spelling and try again.')
+        return
+
+    name = data['name']
+    country = data['sys']['country']
+    temp = data['main']['temp']
+    feels_like = data['main']['feels_like']
+    description = data['weather'][0]['description']
+    humidity = data['main']['humidity']
+
+    await ctx.send(
+        f'🌤️ **Weather in {name}, {country}**\n'
+        f'🌡️ Temperature: **{temp}°C** (feels like {feels_like}°C)\n'
+        f'☁️ Condition: **{description}**\n'
+        f'💧 Humidity: **{humidity}%**'
+    )
 
 # Run the bot
 bot.run(TOKEN)

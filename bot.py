@@ -91,5 +91,31 @@ async def weather(ctx, *, city):
         f'💧 Humidity: **{humidity}%**'
     )
 
+# !coinflip - flips a coin
+@bot.command()
+async def coinflip(ctx):
+    result = random.choice(['Heads', 'Tails'])
+    await ctx.send(f'🪙 The coin landed on **{result}!**')
+
+# !roll [number] - rolls a dice with the given number of sides
+@bot.command()
+async def roll(ctx, sides: int = 6):
+    if sides < 2:
+        await ctx.send('Please enter a number greater than 1.')
+        return
+    result = random.randint(1, sides)
+    await ctx.send(f'🎲 You rolled a **{result}** out of {sides}!')
+
+# !poll [question] [option1] [option2] - creates a poll with reactions
+@bot.command()
+async def poll(ctx, question, option1, option2):
+    message = await ctx.send(
+        f'📊 **{question}**\n'
+        f'🅰️ {option1}\n'
+        f'🅱️ {option2}'
+    )
+    await message.add_reaction('🅰️')
+    await message.add_reaction('🅱️')
+
 # Run the bot
 bot.run(TOKEN)

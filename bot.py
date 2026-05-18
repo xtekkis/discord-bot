@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+import html
 import requests
 import random
 import os
@@ -160,6 +161,68 @@ async def poll(ctx, question, option1, option2):
     message = await ctx.send(embed=embed)
     await message.add_reaction('🅰️')
     await message.add_reaction('🅱️')
+
+# !trivia - fetches a random trivia question with multiple choice answers
+@bot.command()
+async def trivia(ctx):
+    response = requests.get('https://opentdb.com/api.php?amount=1&type=multiple')
+    data = response.json()['results'][0]
+
+    question = html.unescape(data['question'])
+    correct = html.unescape(data['correct_answer'])
+    wrong = [html.unescape(ans) for ans in data['incorrect_answers']]
+
+    # Combine and shuffle all answers
+    options = wrong + [correct]
+    random.shuffle(options)
+
+    # Label options as A, B, C, D
+    labels = ['🇦', '🇧', '🇨', '🇩']
+    answer_text = '\n'.join([f'{labels[i]} {options[i]}' for i in range(len(options))])
+    correct_label = labels[options.index(correct)]
+
+    embed = discord.Embed(
+        title='🧠 Trivia Time!',
+        description=question,
+        color=0xe91e63
+    )
+    embed.add_field(name='Options', value=answer_text, inline=False)
+    embed.set_footer(text='Reply with 🇦 🇧 🇨 or 🇩')
+
+    await ctx.send(embed=embed)
+
+    # Wait for a response from the same user in the same channel
+    def check(m):
+        return m.author == ctx.author and m.channel == ctx.channel
+
+    try:
+        msg = await bot.wait_for('message', timeout=20.0, check=check)
+        user_answer = msg.content.strip().upper()
+
+        correct_letters = {'🇦': 'A', '🇧': 'B', '🇨': 'C', '🇩': 'D'}
+        correct_letter = correct_letters.get(correct_label, '')
+
+        if user_answer == correct_letter:
+            result_embed = discord.Embed(
+                title='✅ Correct!',
+                description=f'Well done {ctx.author.name}! The answer was **{correct}**',
+                color=0x2ecc71
+            )
+        else:
+            result_embed = discord.Embed(
+                title='❌ Wrong!',
+                description=f'The correct answer was **{correct}**',
+                color=0xe74c3c
+            )
+        await ctx.send(embed=result_embed)
+
+    except:
+        timeout_embed = discord.Embed(
+            title='⏰ Time is up!',
+            description=f'The correct answer was **{correct}**',
+            color=0xe74c3c
+        )
+        await ctx.send(embed=timeout_embed)
 
 # Run the bot
 bot.run(TOKEN)

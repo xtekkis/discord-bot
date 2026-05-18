@@ -29,6 +29,8 @@ async def hello(ctx):
         description=f'Hi {ctx.author.name}! I am Utilix, your utility bot. Type !help to see what I can do!',
         color=0x7289da
     )
+    embed.set_footer(text='Utilix Bot')
+    embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
 # !ping - checks response time
@@ -40,6 +42,8 @@ async def ping(ctx):
         description=f'Response time: **{latency}ms**',
         color=0x2ecc71
     )
+    embed.set_footer(text='Utilix Bot')
+    embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
 # !joke - fetches a random joke from an API
@@ -53,6 +57,8 @@ async def joke(ctx):
     )
     embed.add_field(name='Setup', value=data['setup'], inline=False)
     embed.add_field(name='Punchline', value=f'||{data["punchline"]}||', inline=False)
+    embed.set_footer(text='Utilix Bot')
+    embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
 # !8ball - magic 8 ball, answers a question randomly
@@ -87,6 +93,8 @@ async def ball8(ctx, *, question):
     )
     embed.add_field(name='Question', value=question, inline=False)
     embed.add_field(name='Answer', value=f'**{answer}**', inline=False)
+    embed.set_footer(text='Utilix Bot')
+    embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
 # !weather [city] - fetches live weather for a given city
@@ -101,6 +109,8 @@ async def weather(ctx, *, city):
             description='Please check the spelling and try again.',
             color=0xe74c3c
         )
+        embed.set_footer(text='Utilix Bot')
+        embed.timestamp = discord.utils.utcnow()
         await ctx.send(embed=embed)
         return
     name = data['name']
@@ -116,6 +126,8 @@ async def weather(ctx, *, city):
     embed.add_field(name='🌡️ Temperature', value=f'**{temp}°C** (feels like {feels_like}°C)', inline=False)
     embed.add_field(name='☁️ Condition', value=f'**{description}**', inline=False)
     embed.add_field(name='💧 Humidity', value=f'**{humidity}%**', inline=False)
+    embed.set_footer(text='Utilix Bot')
+    embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
 # !coinflip - flips a coin
@@ -127,6 +139,8 @@ async def coinflip(ctx):
         description=f'The coin landed on **{result}!**',
         color=0xe67e22
     )
+    embed.set_footer(text='Utilix Bot')
+    embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
 # !roll [number] - rolls a dice with the given number of sides
@@ -138,6 +152,8 @@ async def roll(ctx, sides: int = 6):
             description='Please enter a number greater than 1.',
             color=0xe74c3c
         )
+        embed.set_footer(text='Utilix Bot')
+        embed.timestamp = discord.utils.utcnow()
         await ctx.send(embed=embed)
         return
     result = random.randint(1, sides)
@@ -146,6 +162,8 @@ async def roll(ctx, sides: int = 6):
         description=f'You rolled a **{result}** out of {sides}!',
         color=0xe67e22
     )
+    embed.set_footer(text='Utilix Bot')
+    embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
 # !poll [question] [option1] [option2] - creates a poll with reactions
@@ -158,6 +176,8 @@ async def poll(ctx, question, option1, option2):
     )
     embed.add_field(name='🅰️ Option 1', value=option1, inline=True)
     embed.add_field(name='🅱️ Option 2', value=option2, inline=True)
+    embed.set_footer(text='Utilix Bot')
+    embed.timestamp = discord.utils.utcnow()
     message = await ctx.send(embed=embed)
     await message.add_reaction('🅰️')
     await message.add_reaction('🅱️')
@@ -187,8 +207,8 @@ async def trivia(ctx):
         color=0xe91e63
     )
     embed.add_field(name='Options', value=answer_text, inline=False)
-    embed.set_footer(text='Reply with 🇦 🇧 🇨 or 🇩')
-
+    embed.set_footer(text='Utilix Bot • Reply with A B C or D')
+    embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
     # Wait for a response from the same user in the same channel
@@ -214,6 +234,8 @@ async def trivia(ctx):
                 description=f'The correct answer was **{correct}**',
                 color=0xe74c3c
             )
+        result_embed.set_footer(text='Utilix Bot')
+        result_embed.timestamp = discord.utils.utcnow()
         await ctx.send(embed=result_embed)
 
     except:
@@ -222,6 +244,8 @@ async def trivia(ctx):
             description=f'The correct answer was **{correct}**',
             color=0xe74c3c
         )
+        timeout_embed.set_footer(text='Utilix Bot')
+        timeout_embed.timestamp = discord.utils.utcnow()
         await ctx.send(embed=timeout_embed)
 
 # Run the bot

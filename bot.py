@@ -259,12 +259,12 @@ async def help_command(ctx):
     )
     embed.add_field(
         name='🔧 Utility',
-        value='`!hello` Greet the bot\n`!ping` — Check response time',
+        value='`!hello` Greet the bot\n`!ping` Check response time',
         inline=False
     )
     embed.add_field(
         name='🎮 Fun',
-        value='`!joke` Get a random joke\n`!8ball <question>` — Ask the magic 8 ball\n`!coinflip` — Flip a coin\n`!roll <sides>` — Roll a dice',
+        value='`!joke` Get a random joke\n`!8ball <question>` Ask the magic 8 ball\n`!coinflip` Flip a coin\n`!roll <sides>` Roll a dice',
         inline=False
     )
     embed.add_field(
@@ -274,7 +274,7 @@ async def help_command(ctx):
     )
     embed.add_field(
         name='🎯 Games',
-        value='`!trivia` Answer a trivia question\n`!poll <question> <option1> <option2>` — Create a poll',
+        value='`!trivia` Answer a trivia question\n`!poll <question> <option1> <option2>` Create a poll',
         inline=False
     )
     embed.set_footer(text='Utilix Bot')

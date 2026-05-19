@@ -15,13 +15,14 @@ WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
+bot.remove_command('help')
 
 # Runs when the bot successfully connects to Discord
 @bot.event
 async def on_ready():
     print(f'{bot.user} is online and ready!')
 
-# !hello - greets the user
+# !hello greets the user
 @bot.command()
 async def hello(ctx):
     embed = discord.Embed(
@@ -33,7 +34,7 @@ async def hello(ctx):
     embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
-# !ping - checks response time
+# !ping checks response time
 @bot.command()
 async def ping(ctx):
     latency = round(bot.latency * 1000)
@@ -46,7 +47,7 @@ async def ping(ctx):
     embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
-# !joke - fetches a random joke from an API
+# !joke fetches a random joke from an API
 @bot.command()
 async def joke(ctx):
     response = requests.get('https://official-joke-api.appspot.com/random_joke')
@@ -61,7 +62,7 @@ async def joke(ctx):
     embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
-# !8ball - magic 8 ball, answers a question randomly
+# !8ball magic 8 ball, answers a question randomly
 @bot.command(name='8ball')
 async def ball8(ctx, *, question):
     responses = [
@@ -97,7 +98,7 @@ async def ball8(ctx, *, question):
     embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
-# !weather [city] - fetches live weather for a given city
+# !weather [city] fetches live weather for a given city
 @bot.command()
 async def weather(ctx, *, city):
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={WEATHER_API_KEY}&units=metric'
@@ -130,7 +131,7 @@ async def weather(ctx, *, city):
     embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
-# !coinflip - flips a coin
+# !coinflip flips a coin
 @bot.command()
 async def coinflip(ctx):
     result = random.choice(['Heads', 'Tails'])
@@ -143,7 +144,7 @@ async def coinflip(ctx):
     embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
-# !roll [number] - rolls a dice with the given number of sides
+# !roll [number] rolls a dice with the given number of sides
 @bot.command()
 async def roll(ctx, sides: int = 6):
     if sides < 2:
@@ -166,7 +167,7 @@ async def roll(ctx, sides: int = 6):
     embed.timestamp = discord.utils.utcnow()
     await ctx.send(embed=embed)
 
-# !poll [question] [option1] [option2] - creates a poll with reactions
+# !poll [question] [option1] [option2] creates a poll with reactions
 @bot.command()
 async def poll(ctx, question, option1, option2):
     embed = discord.Embed(
@@ -182,7 +183,7 @@ async def poll(ctx, question, option1, option2):
     await message.add_reaction('🅰️')
     await message.add_reaction('🅱️')
 
-# !trivia - fetches a random trivia question with multiple choice answers
+# !trivia fetches a random trivia question with multiple choice answers
 @bot.command()
 async def trivia(ctx):
     response = requests.get('https://opentdb.com/api.php?amount=1&type=multiple')
@@ -247,6 +248,38 @@ async def trivia(ctx):
         timeout_embed.set_footer(text='Utilix Bot')
         timeout_embed.timestamp = discord.utils.utcnow()
         await ctx.send(embed=timeout_embed)
+
+# !help shows all available commands
+@bot.command(name='help')
+async def help_command(ctx):
+    embed = discord.Embed(
+        title='📖 Utilix Commands',
+        description='Here are all the available commands:',
+        color=0x7289da
+    )
+    embed.add_field(
+        name='🔧 Utility',
+        value='`!hello` Greet the bot\n`!ping` — Check response time',
+        inline=False
+    )
+    embed.add_field(
+        name='🎮 Fun',
+        value='`!joke` Get a random joke\n`!8ball <question>` — Ask the magic 8 ball\n`!coinflip` — Flip a coin\n`!roll <sides>` — Roll a dice',
+        inline=False
+    )
+    embed.add_field(
+        name='🌍 Info',
+        value='`!weather <city>` Get live weather',
+        inline=False
+    )
+    embed.add_field(
+        name='🎯 Games',
+        value='`!trivia` Answer a trivia question\n`!poll <question> <option1> <option2>` — Create a poll',
+        inline=False
+    )
+    embed.set_footer(text='Utilix Bot')
+    embed.timestamp = discord.utils.utcnow()
+    await ctx.send(embed=embed)
 
 # Run the bot
 bot.run(TOKEN)

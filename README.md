@@ -1,9 +1,9 @@
-# Utilix Discord Bot 🤖
+# Utilix Discord Bot
 
 A multi-command Discord bot built with Python and discord.py.
 Utilix offers a range of fun and utility commands including live weather, trivia, jokes and more.
 
-## 📸 Preview
+## Preview
 
 ### Help Menu
 ![Help Command](Images/help.png)
@@ -11,7 +11,7 @@ Utilix offers a range of fun and utility commands including live weather, trivia
 ### Weather Command
 ![Weather Command](Images/weather.png)
 
-## ✨ Commands
+## Commands
 
 | Command | Description | Usage |
 |---|---|---|
@@ -25,13 +25,13 @@ Utilix offers a range of fun and utility commands including live weather, trivia
 | `!trivia` | Answer a trivia question | `!trivia` |
 | `!poll` | Create a poll | `!poll "Best language?" "Python" "JavaScript"` |
 
-## 🛠️ Built With
+## Built With
 - Python
 - discord.py
 - OpenWeatherMap API
 - Open Trivia DB API
 
-## 🚀 Run Locally
+## Run Locally
 1. Clone the repository
    git clone https://github.com/xtekkis/discord-bot.git
 2. Install dependencies
